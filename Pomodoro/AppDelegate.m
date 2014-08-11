@@ -28,9 +28,9 @@
 }
 
 - (void) setupStatusMenu {
-    NSMenuItem *startItem = [[NSMenuItem alloc] initWithTitle:@"Start" action:@selector(selectStart) keyEquivalent:@"StartAction"];
-    NSMenuItem *stopItem = [[NSMenuItem alloc] initWithTitle:@"Stop" action:@selector(selectStop) keyEquivalent:@"StopAction"];
-    NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(selectQuit) keyEquivalent:@"StopAction"];
+    NSMenuItem *startItem = [[NSMenuItem alloc] initWithTitle:@"Start" action:@selector(start) keyEquivalent:@"StartAction"];
+    NSMenuItem *stopItem = [[NSMenuItem alloc] initWithTitle:@"Stop" action:@selector(stop) keyEquivalent:@"StopAction"];
+    NSMenuItem *quitItem = [[NSMenuItem alloc] initWithTitle:@"Quit" action:@selector(quit) keyEquivalent:@"StopAction"];
     
     [stopItem setEnabled:NO];
     statusMenu = [[NSMenu alloc] initWithTitle:@"Pomodoro"];
@@ -45,7 +45,7 @@
     [self.window setMenu:statusMenu];
 }
 
-- (void) selectStart {
+- (void) start {
     NSMenuItem *stopItem = [statusMenu itemWithTitle:@"Stop"];
     NSMenuItem *startItem = [statusMenu itemWithTitle:@"Start"];
     [stopItem setEnabled:YES];
@@ -55,7 +55,7 @@
                                                  target:self selector:@selector(pomodoroTick) userInfo:nil repeats:YES];
 }
 
-- (void) selectStop {
+- (void) stop {
     NSMenuItem *stopItem = [statusMenu itemWithTitle:@"Stop"];
     NSMenuItem *startItem = [statusMenu itemWithTitle:@"Start"];
     [statusMenuItem setTitle:@"Pomodoro"];
@@ -68,22 +68,22 @@
     }
 }
 
-- (void) selectQuit {
+- (void) quit {
     [NSApp terminate:self];
 }
 
 - (void) pomodoroTick {
     countTimer ++;
     if (countTimer == POM_TIME_SECOND) {
-        [self selectStop];
+        [self stop];
         /**
          *  Play sound also
          */
         [[NSSound soundNamed:@"beep"] play];
     }
     else {
-        int minute = (1500 - countTimer)/60;
-        int second = (1500 - countTimer) - minute*60;
+        int minute = (POM_TIME_SECOND - countTimer)/60;
+        int second = (POM_TIME_SECOND - countTimer) - minute*60;
         [statusMenuItem setTitle:[NSString stringWithFormat:@"%d:%d", minute, second]];
     }
     
