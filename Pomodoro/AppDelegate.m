@@ -75,7 +75,6 @@
 - (void) pomodoroTick {
     countTimer ++;
     if (countTimer == POM_TIME_SECOND) {
-        [self stop];
         /**
          *  Play sound also
          */
