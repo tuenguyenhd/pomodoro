@@ -74,7 +74,7 @@
 
 - (void) pomodoroTick {
     countTimer ++;
-    if (countTimer == POM_TIME_SECOND) {
+    if (countTimer >= POM_TIME_SECOND) {
         /**
          *  Play sound also
          */
